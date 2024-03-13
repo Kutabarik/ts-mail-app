@@ -41,21 +41,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var dotenv_1 = __importDefault(require("dotenv"));
-var pg_1 = require("pg");
+var db_1 = __importDefault(require("./database/db"));
+var authRoutes_1 = __importDefault(require("./routes/authRoutes"));
 var app = (0, express_1.default)();
 dotenv_1.default.config();
-app.get("/test", function (req, res, next) {
-    res.send("hiiiii");
-});
 app.listen(process.env.PORT, function () {
+    console.log(process.env.DB_HOST);
     console.log("Server is running at ".concat(process.env.PORT));
-});
-var pool = new pg_1.Pool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: parseInt(process.env.DB_PORT || "5432")
 });
 var connectToDB = function () { return __awaiter(void 0, void 0, void 0, function () {
     var err_1;
@@ -63,7 +55,7 @@ var connectToDB = function () { return __awaiter(void 0, void 0, void 0, functio
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, pool.connect()];
+                return [4 /*yield*/, db_1.default.connect()];
             case 1:
                 _a.sent();
                 return [3 /*break*/, 3];
@@ -76,4 +68,6 @@ var connectToDB = function () { return __awaiter(void 0, void 0, void 0, functio
     });
 }); };
 connectToDB();
+app.use(express_1.default.json());
+app.use(authRoutes_1.default);
 //# sourceMappingURL=app.js.map
