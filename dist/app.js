@@ -43,6 +43,7 @@ var express_1 = __importDefault(require("express"));
 var dotenv_1 = __importDefault(require("dotenv"));
 var db_1 = __importDefault(require("./database/db"));
 var authRoutes_1 = __importDefault(require("./routes/authRoutes"));
+var mailRoutes_1 = __importDefault(require("./routes/mailRoutes"));
 var app = (0, express_1.default)();
 dotenv_1.default.config();
 app.listen(process.env.PORT, function () {
@@ -70,4 +71,5 @@ var connectToDB = function () { return __awaiter(void 0, void 0, void 0, functio
 connectToDB();
 app.use(express_1.default.json());
 app.use(authRoutes_1.default);
+app.use(mailRoutes_1.default);
 //# sourceMappingURL=app.js.map

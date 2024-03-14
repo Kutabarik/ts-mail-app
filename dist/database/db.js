@@ -14,4 +14,18 @@ var pool = new pg_1.Pool({
     port: parseInt(process.env.DB_PORT || "5432")
 });
 exports.default = pool;
+//  CREATE TABLE IF NOT EXISTS users (
+//         id SERIAL PRIMARY KEY,
+//         username VARCHAR(255) NOT NULL,
+//         email VARCHAR(255) NOT NULL,
+//         password VARCHAR(255) NOT NULL
+//       );
+//       CREATE TABLE IF NOT EXISTS emails (
+//         id SERIAL PRIMARY KEY,
+//         user_id INTEGER REFERENCES users(id),
+//         subject VARCHAR(255) NOT NULL,
+//         body TEXT NOT NULL,
+//         sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+//         read_at TIMESTAMP NULL 
+//       );
 //# sourceMappingURL=db.js.map

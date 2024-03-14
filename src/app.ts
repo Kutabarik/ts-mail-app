@@ -2,6 +2,8 @@ import express, { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
 import pool from './database/db';
 import authRouter from './routes/authRoutes'
+import mailRouter from './routes/mailRoutes';
+
 
 const app = express();
 dotenv.config(); 
@@ -22,3 +24,4 @@ connectToDB();
 
 app.use(express.json());
 app.use(authRouter);
+app.use(mailRouter);

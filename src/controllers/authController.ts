@@ -3,7 +3,6 @@ import pool from '../database/db';
 import bcrypt from "bcrypt";
 
 const registerUser = async (req: Request, res: Response) => {
-	console.log('Request:::' + req.body);
 	const { username, email, password } = req.body;
 
 	try {
@@ -19,7 +18,7 @@ const registerUser = async (req: Request, res: Response) => {
 		res.status(201).json({ message: "User registered successfully" });
 	} catch (error) {
 		console.error(error);
-		res.status(500).json({ error: "Internal Server Error" });
+		res.status(500).json({ error: "Error" });
 	}
 };
 

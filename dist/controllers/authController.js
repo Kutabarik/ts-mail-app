@@ -47,7 +47,6 @@ var registerUser = function (req, res) { return __awaiter(void 0, void 0, void 0
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                console.log('Request:::' + req.body);
                 _a = req.body, username = _a.username, email = _a.email, password = _a.password;
                 _b.label = 1;
             case 1:
@@ -69,7 +68,7 @@ var registerUser = function (req, res) { return __awaiter(void 0, void 0, void 0
             case 5:
                 error_1 = _b.sent();
                 console.error(error_1);
-                res.status(500).json({ error: "Internal Server Error" });
+                res.status(500).json({ error: "Error" });
                 return [3 /*break*/, 6];
             case 6: return [2 /*return*/];
         }
