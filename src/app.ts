@@ -1,17 +1,14 @@
 import express, { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
+import http from 'http';
 import pool from './database/db';
 import authRouter from './routes/authRoutes'
 import mailRouter from './routes/mailRoutes';
-
+import initSocketServer from './websocketServer';
+import applyMigrations from './database/migrations';
 
 const app = express();
 dotenv.config(); 
-
-app.listen(process.env.PORT, () => {
-  console.log(process.env.DB_HOST);
-  console.log(`Server is running at ${process.env.PORT}`);
-});
 
 const connectToDB = async () => {
   try {
@@ -21,7 +18,13 @@ const connectToDB = async () => {
   }
 };
 connectToDB();
+applyMigrations();
+
+const httpServer = http.createServer(app)
+export const io = initSocketServer(httpServer);
 
 app.use(express.json());
 app.use(authRouter);
 app.use(mailRouter);
+
+httpServer.listen(process.env.PORT)

@@ -41,6 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteMail = exports.editMail = exports.getAll = exports.createMail = void 0;
 var db_1 = __importDefault(require("../database/db"));
+var app_1 = require("../app");
 var createMail = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, recipientId, subject, body, user, error_1;
     return __generator(this, function (_b) {
@@ -51,13 +52,14 @@ var createMail = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 return [4 /*yield*/, db_1.default.query("SELECT * FROM users WHERE id = $1", [recipientId])];
             case 1:
                 user = _b.sent();
-                if (!user) return [3 /*break*/, 3];
+                if (!(user.rows.length > 0)) return [3 /*break*/, 3];
                 return [4 /*yield*/, db_1.default.query("INSERT INTO emails (user_id, subject, body) VALUES ($1, $2, $3)", [recipientId, subject, body])];
             case 2:
                 _b.sent();
+                app_1.io.to("user_".concat(recipientId)).emit('new-mail', { subject: subject, body: body });
                 res.status(200).json({ message: "Mail was sent successfully" });
                 return [3 /*break*/, 4];
-            case 3: return [2 /*return*/, res.status(400).json({ error: "Wrong user" })];
+            case 3: return [2 /*return*/, res.status(400).json({ error: "User not found" })];
             case 4: return [3 /*break*/, 6];
             case 5:
                 error_1 = _b.sent();

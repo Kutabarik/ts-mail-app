@@ -38,18 +38,18 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.userSockets = exports.io = void 0;
 var express_1 = __importDefault(require("express"));
 var dotenv_1 = __importDefault(require("dotenv"));
+var http_1 = __importDefault(require("http"));
 var db_1 = __importDefault(require("./database/db"));
 var authRoutes_1 = __importDefault(require("./routes/authRoutes"));
 var mailRoutes_1 = __importDefault(require("./routes/mailRoutes"));
+var websocketServer_1 = __importDefault(require("./websocketServer"));
 var app = (0, express_1.default)();
 dotenv_1.default.config();
-app.listen(process.env.PORT, function () {
-    console.log(process.env.DB_HOST);
-    console.log("Server is running at ".concat(process.env.PORT));
-});
 var connectToDB = function () { return __awaiter(void 0, void 0, void 0, function () {
     var err_1;
     return __generator(this, function (_a) {
@@ -69,6 +69,8 @@ var connectToDB = function () { return __awaiter(void 0, void 0, void 0, functio
     });
 }); };
 connectToDB();
+var server = http_1.default.createServer(app);
+exports.io = (_a = (0, websocketServer_1.default)(server), _a.io), exports.userSockets = _a.userSockets;
 app.use(express_1.default.json());
 app.use(authRoutes_1.default);
 app.use(mailRoutes_1.default);

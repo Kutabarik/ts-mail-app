@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import pool from '../database/db';
+import { io } from '../app';
 
 const createMail = async (req: Request, res: Response) => {
     try {
@@ -7,12 +8,14 @@ const createMail = async (req: Request, res: Response) => {
 
         const user = await pool.query("SELECT * FROM users WHERE id = $1", [recipientId]);
 
-        if (user) {
+        if (user.rows.length > 0) {
             await pool.query("INSERT INTO emails (user_id, subject, body) VALUES ($1, $2, $3)", [recipientId, subject, body]);
+
+            io.emit(`user-mail-${recipientId}`, { message: "У вас новое письмо!" });
 
             res.status(200).json({ message: "Mail was sent successfully" });
         } else {
-            return res.status(400).json({ error: "Wrong user" });
+            return res.status(400).json({ error: "User not found" });
         }
 
     } catch (error) {
@@ -20,6 +23,7 @@ const createMail = async (req: Request, res: Response) => {
         res.status(500).json({ error: 'Error' });
     }
 };
+
 
 const getAll = async (req: Request, res: Response) => {
     try {
