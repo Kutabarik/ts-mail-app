@@ -2,6 +2,13 @@ import { Request, Response } from "express";
 import pool from '../database/db';
 import bcrypt from "bcrypt";
 
+/**
+ * Registers a new user.
+ * 
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns A JSON response indicating the success or failure of the registration.
+ */
 const registerUser = async (req: Request, res: Response) => {
 	const { username, email, password } = req.body;
 
@@ -15,13 +22,19 @@ const registerUser = async (req: Request, res: Response) => {
 
 		await pool.query("INSERT INTO users (username, email, password) VALUES ($1, $2, $3)", [username, email, hashedPassword]);
 
-		res.status(201).json({ message: "User registered successfully" });
+		return res.status(201).json({ message: "User registered successfully" });
 	} catch (error) {
 		console.error(error);
-		res.status(500).json({ error: "Error" });
+		return res.status(500).json({ error: "Error" });
 	}
 };
 
+/**
+ * Authenticates a user by checking their email and password against the database.
+ * @param req - The request object containing the user's email and password.
+ * @param res - The response object used to send the authentication result.
+ * @returns A JSON response indicating the authentication result.
+ */
 const authenticateUser = async (req: Request, res: Response) => {
 	const { email, password } = req.body;
 
@@ -43,7 +56,7 @@ const authenticateUser = async (req: Request, res: Response) => {
 		}
 	} catch (error) {
 		console.error(error);
-		res.status(500).json({ error: 'Internal Server Error' });
+		return res.status(500).json({ error: 'Internal Server Error' });
 	}
 };
 

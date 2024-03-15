@@ -1,6 +1,9 @@
 import {migrate} from "postgres-migrations"
 import pool from './db';
 
+/**
+ * Applies the database migrations.
+ */
 async function applyMigrations() {
     try {
         await migrate({ client: pool }, "src/database/migrations");
