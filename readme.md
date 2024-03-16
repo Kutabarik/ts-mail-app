@@ -6,8 +6,8 @@ This project provides a TypeScript-based mail service for sending emails.
 
 To install the TypeScript Mail Service, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/your-repo.git`
-2. Navigate to the project directory: `cd your-repo`
+1. Clone the repository: `git clone https://github.com/Kutabarik/ts-mail-app.git`
+2. Navigate to the project directory: `cd ts-mail-app`
 3. Run `cp .env.copy .env`
 4. Run the docker-compose `docker compose up -d`
 
